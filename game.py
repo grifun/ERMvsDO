@@ -3,11 +3,12 @@ import random
 import copy
 
 class Space:
+    # abstract class
     def getRandomPoint(self):
         raise "not implemented yet"
 
-
 class HyperBlock(Space):
+    # hypercube of dimension n, inited with array of bounds (lb,up) for all dimensions
     def __init__(self, bounds: np.array):
         self.n = len(bounds)
         self.bounds = bounds
@@ -18,8 +19,8 @@ class HyperBlock(Space):
     def getBounds(self) -> np.array:
         return copy.deepcopy(self.bounds.T)
 
-
 class ActionSet(Space):
+    # list of actions, inited as numpy array
     def __init__(self, actions: np.array):
         self.actions = actions
 
@@ -28,14 +29,15 @@ class ActionSet(Space):
 
 
 class Game:
+    # Definition of a game, containing ActionSpace for both players, and the function defining the game
     def __init__(self, A: HyperBlock, B: HyperBlock, u: callable, name:str=""):
         self.u = u
         self.A = A
         self.B = B
         self.name = name
-
+    
     def mixed_utility_function_a(self, a, b_s, q):
-        # Computed the utility function of player 1.
+        # Compute the utility function of player 1.
         us = np.array([self.u(a,b) for b in b_s])
         val = -q @ us
         if isinstance(val, np.ndarray):
@@ -57,5 +59,6 @@ class Game:
         return val
 
     def value_in_strategies(self, a_s, p, b_s, q):
+        # Computed the utility function in both player's specified strategies
         temp_vals = np.array( [ -self.mixed_utility_function_a(a, b_s, q) for a in a_s ] )
         return temp_vals @ p

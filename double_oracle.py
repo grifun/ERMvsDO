@@ -3,6 +3,7 @@ from oracles import *
 import numpy as np
 
 def init_DO(game:Game, init_algorithm:str):
+    # Returns initial strategies for both players
     if init_algorithm == "bounds":
         a_s = game.A.getBounds()
         b_s = game.B.getBounds()
@@ -15,7 +16,10 @@ def init_DO(game:Game, init_algorithm:str):
     q = np.ones(len(b_s))/len(b_s)
     return a_s, p, b_s, q
 
+# Implementation taken from https://arxiv.org/abs/2009.12185 , Double Oracle Algorithm for Computing Equilibria in Continuous Games
 def double_oracle(game, init_algorithm:str = "bounds", maxiter=20, eps=1e-6):
+    """Given an infinite game, iteratively find strategies in an epsilon-Nash-equilibrium.
+    """
     # Initialize the algorithm
     a_s, p, b_s, q = init_DO(game, init_algorithm)
     lower_bounds, upper_bounds = [],[]
