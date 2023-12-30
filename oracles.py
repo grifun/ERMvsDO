@@ -26,9 +26,9 @@ def optimal_mixed_strategy(matrix:np.array, player='a', lp_solver="simplex"):
     bnds[0] = np.array([-np.inf, np.inf])
     # {options} added on behalf what the functions itself demanded in stdout
     if player == 'a': #maximizing player
-        ret = sp.linprog( -function_vector, -boundary_matrix, np.zeros(height), eq_matrix, np.array([1]), bnds, method=lp_solver, options={'autoscale': True, 'sym_pos':False, 'maxiter':int(1e5)})
+        ret = sp.linprog( -function_vector, -boundary_matrix, np.zeros(height), eq_matrix, np.array([1]), bnds, method=lp_solver, options={'maxiter':int(1e5)})
     else:             #minimizing player
-        ret = sp.linprog( function_vector, boundary_matrix, np.zeros(height), eq_matrix, np.array([1]), bnds, method=lp_solver, options={'autoscale': True, 'sym_pos':False, 'maxiter':int(1e5)})
+        ret = sp.linprog( function_vector, boundary_matrix, np.zeros(height), eq_matrix, np.array([1]), bnds, method=lp_solver, options={'maxiter':int(1e5)})
     if ret['success'] is not True:
         raise "DID NOT FIND EQUILIBRIUM!"
 
@@ -58,17 +58,36 @@ def reduce_strategies(xs:np.array, p:np.array, ys:np.array, q:np.array, epsilon=
 
 def bestResponseOracleA(A:HyperBlock, b_s:ActionSet, weigths:np.array, game:Game):
     # Find best response of player A against mixed strategy of B
-    a0 = A.getRandomPoint()[0]
+    a0 = A.getRandomPoint()
+    if len(a0) == 1:
+        a0 = a0[0]
     a_response = sp.minimize(game.mixed_utility_function_a, a0, method='Powell', bounds=A.bounds, args=(b_s, weigths)).x
+    #a_response = sp.minimize(game.mixed_utility_function_a, a0, bounds=A.bounds, args=(b_s, weigths)).x
     a_val = -game.mixed_utility_function_a(a_response, b_s, weigths)
     return a_response, a_val
 
 def bestResponseOracleB(B:HyperBlock, a_s:ActionSet, weigths:np.array, game:Game):
     # Find best response of player B against mixed strategy of A
-    b0 = B.getRandomPoint()[0]
+    b0 = B.getRandomPoint()
+    if len(b0) == 1:
+        b0 = b0[0]
     b_response = sp.minimize(game.mixed_utility_function_b, b0, method='Powell', bounds=B.bounds, args=(a_s, weigths)).x
+    #b_response = sp.minimize(game.mixed_utility_function_b, b0, bounds=B.bounds, args=(a_s, weigths)).x
     b_val = game.mixed_utility_function_b(b_response, a_s, weigths)
     return b_response, b_val
+
+def bestResponseOracleAGurobi(A:HyperBlock, b_s:ActionSet, weigths:np.array, game:Game):
+    import gurobipy as g
+    model = g.Model()
+    U = model.addVar(lb=-np.inf, ub=np.inf, obj=1)
+    X = model.addVars(A.n, lb=-np.inf, ub=np.inf, obj=0)
+    for i in range(A.n):
+        model.addConstr(X[i]>=A.bounds[i][0])
+        model.addConstr(X[i]<=A.bounds[i][1])
+    model.addConstr( U == g.quicksum( game.mixed_utility_function_a(X, b_s, weigths) ) ) #no
+    model.setMObjective(U, sense=g.GRB.MINIMIZE)
+    model.optimize()
+    input(model.status)
 
 def value_oracle(a_s:np.array, b_s:np.array, game:Game):
     # Find the strategies in an equilibrium of player's lists of actions

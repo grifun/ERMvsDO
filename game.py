@@ -14,7 +14,7 @@ class HyperBlock(Space):
         self.bounds = bounds
 
     def getRandomPoint(self) -> np.array:
-        return np.array( self.bounds @ np.array([-1,1]) * np.random.rand(self.n) + self.bounds[:,0] )
+        return np.array([ np.array( self.bounds @ np.array([-1,1]) * np.random.rand(self.n) + self.bounds[:,0] ) ])
 
     def getBounds(self) -> np.array:
         return copy.deepcopy(self.bounds.T)
@@ -25,7 +25,7 @@ class ActionSet(Space):
         self.actions = actions
 
     def getRandomPoint(self) -> np.array:
-        return random.choice(self.actions) 
+        return random.choice(self.actions)
 
 
 class Game:
