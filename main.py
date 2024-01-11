@@ -35,7 +35,11 @@ games = [
     Game(A=HyperBlock( bounds_f_example7_A ), B=HyperBlock( bounds_f_example7_B), u=util_f_example7, name="example7"),
     Game(A=HyperBlock( bounds_f_example8_A ), B=HyperBlock( bounds_f_example8_B), u=util_f_example8, name="example8"),
     Game(A=HyperBlock( bounds_f_example9_A ), B=HyperBlock( bounds_f_example9_B), u=util_f_example9, name="example9"),
-    Game(A=HyperBlock( bounds_f_example10_A ), B=HyperBlock( bounds_f_example10_B), u=util_f_example10, name="example10")
+    Game(A=HyperBlock( bounds_f_example10_A ), B=HyperBlock( bounds_f_example10_B), u=util_f_example10, name="example10"),
+    Game(A=HyperBlock( bounds_f_example11_A ), B=HyperBlock( bounds_f_example11_B), u=util_f_example11, name="example11"),
+    Game(A=HyperBlock( bounds_f_example12_A ), B=HyperBlock( bounds_f_example12_B), u=util_f_example12, name="example12"),
+    Game(A=HyperBlock( bounds_f_example13_A ), B=HyperBlock( bounds_f_example13_B), u=util_f_example13, name="example13"),
+    Game(A=HyperBlock( bounds_f_example14_A ), B=HyperBlock( bounds_f_example14_B), u=util_f_example14, name="example14"),
 ]
 
 # set constants

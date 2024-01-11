@@ -72,19 +72,6 @@ def util_f_example1(x, y):
 bounds_f_example1_A = np.array([[0.,1.]])
 bounds_f_example1_B = np.array([[0.,1.]])
 
-# Example 2 - normal form game expected utility function (2 players, 2 strategies)
-# solution computed by linear programming: (0.92105, 0.92105)
-def util_f_example2(x, y):
-    A = np.array([[4, -5],
-                  [-5, 100]])
-    return A[0,0]*x*y \
-         + A[0,1]*x*(1-y) \
-         + A[1,0]*(1-x)*y \
-         + A[1,1]*(1-x)*(1-y)    
-
-bounds_f_example2_A = np.array([[-1.5, 1.5]])  
-bounds_f_example2_B = np.array([[-1.5, 1.5]]) 
-
 # Example 3 - function f2 from https://proceedings.mlr.press/v195/daskalakis23b/daskalakis23b.pdf (Appendix E)
 # solution presented in the paper: (0,0)
 def util_f_example3(x, y):
@@ -129,8 +116,9 @@ bounds_f_example6_A = np.array([[-1.,1.]])
 bounds_f_example6_B = np.array([[-1.,1.]])
 
 
-# Example 7 - example 6.3 i) from https://arxiv.org/pdf/1809.01218.pdf
-# solution presented in the paper: (-1,-1,1,1,1,1)
+# example 6.3 i) from https://arxiv.org/pdf/1809.01218.pdf
+# domain: [-1,1]⁶
+# solution given by this implementation: (-1,-1,1,1,1,1)
 def util_f_example7(x, y):
     return np.array([np.sum(x + y) - np.prod(x - y, axis=0)])
     
@@ -164,3 +152,37 @@ def util_f_example10(x, y):
 
 bounds_f_example10_A = np.array([[-1.,1.]])
 bounds_f_example10_B = np.array([[-1.,1.]])
+
+# Example 11 - example 1 from https://arxiv.org/pdf/1809.01218.pdf
+# solutions presented in the paper: (0,-π), (0,π)
+def util_f_example11(x, y):
+    return 0.2*x*y - np.cos(y)
+    
+bounds_f_example11_A = np.array([[-1.,1.]])
+bounds_f_example11_B = np.array([[-3.15, 3.15]])
+
+# Example 12 - example 3 from https://arxiv.org/pdf/1809.01218.pdf
+# solutions presented in the paper: (0,0), (-1,-1)
+def util_f_example12(x, y):
+    return x**3 + 2*x*y - y**2
+    
+bounds_f_example12_A = np.array([[-1.,1.]])
+bounds_f_example12_B = np.array([[-1.,1.]])
+
+# Example 13 - figure 1 from https://arxiv.org/pdf/1807.02629.pdf
+# solutions presented in the paper: (0.4,0.6)
+def util_f_example13(x, y):
+    return (x - 1/2)*(y - 1/2) + (1/3)*np.exp(-(x-1/4)**2 - (y-3/4)**2 )
+    
+bounds_f_example13_A = np.array([[-1.,1.]])
+bounds_f_example13_B = np.array([[-1.,1.]])
+
+# Example 14 - example 2.2 from https://arxiv.org/pdf/1807.02629.pdf
+# solutions presented in the paper: (0,0)
+def util_f_example14(x, y):
+    left = ((x**4)*(y**2) + (x**2) + 1)
+    right = ((x**2)*(y**4) - (y**2) + 1)
+    return left * right
+    
+bounds_f_example14_A = np.array([[-1.,1.]])
+bounds_f_example14_B = np.array([[-1.,1.]])
