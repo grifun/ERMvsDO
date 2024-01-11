@@ -336,20 +336,69 @@ Tomáš Kasl
 </div>
 
 </section>
-<section id="getting-up" class="slide level2">
-<h2>Getting up</h2>
+<section id="domain" class="slide level2">
+<h2>Domain</h2>
 <ul>
-<li>Turn off alarm</li>
-<li>Get out of bed</li>
+<li>Adversarial games</li>
+<li>for two players</li>
+<li>zero sum</li>
+<li>action spaces are continuums</li>
 </ul>
 </section>
-<section id="going-to-sleep" class="slide level2">
-<h2>Going to sleep</h2>
+<section id="nash-equilibrium" class="slide level2">
+<h2>Nash Equilibrium</h2>
 <ul>
-<li>Get in bed</li>
-<li>Count sheep</li>
+<li>a stable state</li>
+<li>none of the players have a reason to deviate</li>
+<li>(from the adopted strategy)</li>
 </ul>
-<div class="footer footer-default">
+</section>
+<section id="solving-ne" class="slide level2">
+<h2>Solving NE</h2>
+<ul>
+<li><p>solved for games with finite action spaces</p></li>
+<li><p>Linear program:</p></li>
+<li><p><span class="math inline">\(maximize\)</span> <span class="math inline">\(x_0\)</span></p></li>
+<li><p>s.t. <span class="math inline">\(M^Tx - 1x_0 \geq 0\)</span></p></li>
+<li><p><span class="math inline">\(\sum_{j \in A_{max}} x_j = 1\)</span></p></li>
+<li><p><span class="math inline">\(x\geq 0\)</span></p></li>
+</ul>
+</section>
+<section id="infinite-games" class="slide level2">
+<h2>Infinite Games</h2>
+<ul>
+<li>LP no longer applicable (cannot enumerate actions)</li>
+<li><span class="math inline">\(\rightarrow\)</span> What else, then?</li>
+<li>settle <span class="math inline">\(\epsilon-\)</span>NE instead</li>
+<li>iterative algorithms based on <span class="math inline">\(oracles\)</span></li>
+<li><span class="math inline">\(oracles\)</span>:
+<ul>
+<li><span class="math inline">\(bestResponse\)</span> <span class="math inline">\(oracle\)</span>: picks from the whole continuum</li>
+<li><span class="math inline">\(value\)</span> <span class="math inline">\(oracle\)</span>: the LP from previous slide, solves a subgame with finite action spaces</li>
+</ul></li>
+</ul>
+</section>
+<section id="algorithms" class="slide level2">
+<h2>Algorithms</h2>
+<ul>
+<li>Fictitious Play: the original one. Play <span class="math inline">\(bestResponse\)</span> against the average of opponnent’ history</li>
+<li>Double Oracle: Proved by FEL ČVUT (2021) to converge to <span class="math inline">\(\epsilon-NE\)</span> (much faster than FP)</li>
+<li>Expected Regret Minimization: Generalization of online learning into two-player setting, proposed 2023</li>
+</ul>
+</section>
+<section id="convergence-comparison" class="slide level2">
+<h2>Convergence Comparison</h2>
+<p><img data-src="imgs/Rosenbrock_iters.png" style="width:10cm" alt="Converge Comparison"> <img data-src="imgs/Rosenbrock_brs.png" style="width:10cm" alt="Converge Comparison"></p>
+<p><img data-src="imgs/Townsend_iters.png" style="width:10cm" alt="Converge Comparison"> <img data-src="imgs/Townsend_brs.png" style="width:10cm" alt="Converge Comparison"></p>
+</section>
+<section id="testing-claims-for-erm" class="slide level2">
+<h2>Testing Claims for ERM</h2>
+<p><img data-src="imgs/Townsend_supports.png" style="width:13cm" alt="Converge Comparison"> <img data-src="imgs/Townsend_BR_calls.png" style="width:13cm" alt="Converge Comparison"></p>
+</section>
+<section id="influence-of-c" class="slide level2">
+<h2>Influence of C</h2>
+
+<img data-src="imgs/C_influence.png" style="width:22cm" class="r-stretch quarto-figure-center"><p class="caption">C</p><div class="footer footer-default">
 
 </div>
 </section>

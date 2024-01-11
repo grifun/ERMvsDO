@@ -5,12 +5,60 @@ format: revealjs
 jupyter: python3
 ---
 
-## Getting up
+## Domain
 
-- Turn off alarm
-- Get out of bed
+- Adversarial games
+- for two players
+- zero sum
+- action spaces are continuums
 
-## Going to sleep
+## Nash Equilibrium
 
-- Get in bed
-- Count sheep
+- a stable state
+- none of the players have a reason to deviate
+- (from the adopted strategy)
+
+## Solving NE
+
+- solved for games with finite action spaces
+- Linear program:
+
+- $maximize$  $x_0$
+- s.t. $M^Tx - 1x_0 \geq 0$
+- $\sum_{j \in A_{max}} x_j = 1$
+- $x\geq 0$
+
+## Infinite Games
+
+- LP no longer applicable (cannot enumerate actions)
+- $\rightarrow$ What else, then?
+- settle $\epsilon-$NE instead
+- iterative algorithms based on $oracles$
+- $oracles$: 
+    - $bestResponse$ $oracle$: picks from the whole continuum
+    - $value$ $oracle$: the LP from previous slide, solves a subgame with finite action spaces
+
+## Algorithms
+
+- Fictitious Play: the original one. Play $bestResponse$ against the average of opponnent' history
+- Double Oracle: Proved by FEL ČVUT (2021) to converge to $\epsilon-NE$ (much faster than FP)
+- Expected Regret Minimization: Generalization of online learning into two-player setting, proposed 2023
+
+## Convergence Comparison
+
+![Converge Comparison](imgs/Rosenbrock_iters.png){width=10cm}
+![Converge Comparison](imgs/Rosenbrock_brs.png){width=10cm}
+
+![Converge Comparison](imgs/Townsend_iters.png){width=10cm}
+![Converge Comparison](imgs/Townsend_brs.png){width=10cm}
+
+
+
+## Testing Claims for ERM
+
+![Converge Comparison](imgs/Townsend_supports.png){width=13cm}
+![Converge Comparison](imgs/Townsend_BR_calls.png){width=13cm}
+
+## Influence of C
+
+![C](imgs/C_influence.png){width=22cm}
