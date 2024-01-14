@@ -21,18 +21,22 @@ jupyter: python3
 ## Solving NE
 
 - solved for games with finite action spaces
+- create matrix $M$ as utilities of every pair of actions
 - Linear program:
 
-- $maximize$  $x_0$
-- s.t. $M^Tx - 1x_0 \geq 0$
-- $\sum_{j \in A_{max}} x_j = 1$
-- $x\geq 0$
+$maximize$  $x_0$
+
+s.t. $M^T\pmb{x} - \pmb{1}x_0 \geq \pmb{0}$
+
+$\sum_{j \in A} x_j = 1$
+
+$\pmb{x} \geq 0$
 
 ## Infinite Games
 
 - LP no longer applicable (cannot enumerate actions)
 - $\rightarrow$ What else, then?
-- settle $\epsilon-$NE instead
+- settle for $\epsilon-$NE instead
 - iterative algorithms based on $oracles$
 - $oracles$: 
     - $bestResponse$ $oracle$: picks from the whole continuum
@@ -40,25 +44,30 @@ jupyter: python3
 
 ## Algorithms
 
-- Fictitious Play: the original one. Play $bestResponse$ against the average of opponnent' history
-- Double Oracle: Proved by FEL ČVUT (2021) to converge to $\epsilon-NE$ (much faster than FP)
-- Expected Regret Minimization: Generalization of online learning into two-player setting, proposed 2023
+- **Fictitious Play**: the original one. Play $bestResponse$ against the average of opponnent' history
+- **Double Oracle**: Proven by FEL ČVUT (2021) to converge to $\epsilon$-NE (much faster than FP)
+- **Expected Regret Minimization**: Generalization of online learning into two-player setting, proposed 2023
 
 ## Convergence Comparison
+- Rosenbrock: $u(x,y) = (1-x)^{2}+100(y-x^{2})^{2}$
+![Converge Comparison](code/imgs/Rosenbrock_iters.png){width=13cm}
+![Converge Comparison](code/imgs/Rosenbrock_brs.png){width=13cm}
 
-![Converge Comparison](imgs/Rosenbrock_iters.png){width=10cm}
-![Converge Comparison](imgs/Rosenbrock_brs.png){width=10cm}
-
-![Converge Comparison](imgs/Townsend_iters.png){width=10cm}
-![Converge Comparison](imgs/Townsend_brs.png){width=10cm}
+## Convergence Comparison
+- Townsend: $u(x,y) = -[\cos((x-0.1)y)]^{2}-x\sin(3x+y)$
+![Converge Comparison](code/imgs/Townsend_iters.png){width=13cm}
+![Converge Comparison](code/imgs/Townsend_brs.png){width=13cm}
 
 
 
 ## Testing Claims for ERM
 
-![Converge Comparison](imgs/Townsend_supports.png){width=13cm}
-![Converge Comparison](imgs/Townsend_BR_calls.png){width=13cm}
+Assume that ERM Algorithm runs for T iterations. Then, the number of oracle calls is bounded by $O(T /\epsilon^2 \cdot log(T /\epsilon^2))$.
 
-## Influence of C
+![Converge Comparison](code/imgs/Townsend_supports.png){width=13cm}
+![Converge Comparison](code/imgs/Townsend_BR_calls.png){width=13cm}
 
-![C](imgs/C_influence.png){width=22cm}
+## Problem with the magic constant $C$
+- Tested on the the Rosenbrock function
+
+![](code/imgs/C_rosenbrock.png){width=26cm}
