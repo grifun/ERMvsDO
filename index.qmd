@@ -8,17 +8,18 @@ jupyter: python3
 ## Domain
 
 - Adversarial games
-- for two players
+- two players
 - zero sum
 - action spaces are continuums
+- we want to compute a NE
 
 ## Nash Equilibrium
 
 - a stable state
 - none of the players have a reason to deviate
-- (from the adopted strategy)
+    - (from their adopted strategy)
 
-## Solving NE
+## Finding a NE
 
 - solved for games with finite action spaces
 - create matrix $M$ as utilities of every pair of actions
@@ -35,18 +36,22 @@ $\pmb{x} \geq 0$
 ## Infinite Games
 
 - LP no longer applicable (cannot enumerate actions)
-- $\rightarrow$ What else, then?
+    - $\rightarrow$ What else, then?
 - settle for $\epsilon-$NE instead
 - iterative algorithms based on $oracles$
 - $oracles$: 
     - $bestResponse$ $oracle$: picks from the whole continuum
     - $value$ $oracle$: the LP from previous slide, solves a subgame with finite action spaces
 
-## Algorithms
+## Task (experiments):
 
-- **Fictitious Play**: the original one. Play $bestResponse$ against the average of opponnent' history
-- **Double Oracle**: Proven by FEL ČVUT (2021) to converge to $\epsilon$-NE (much faster than FP)
-- **Expected Regret Minimization**: Generalization of online learning into two-player setting, proposed 2023
+- Compare converge for algorithms:
+    - **Double Oracle**: Proven in 2021 to converge to $\epsilon$-NE (much faster than FP)
+    - **Expected Regret Minimization**: Generalization of online learning into two-player setting, proposed 2023
+- Validate claims provided by the authors of ERM paper
+    - Convergence
+    - Computational complexity
+
 
 ## Convergence Comparison
 - Rosenbrock: $u(x,y) = (1-x)^{2}+100(y-x^{2})^{2}$
@@ -60,9 +65,9 @@ $\pmb{x} \geq 0$
 
 
 
-## Testing Claims for ERM
+## Testing Complexity Claims
 
-Assume that ERM Algorithm runs for T iterations. Then, the number of oracle calls is bounded by $O(T /\epsilon^2 \cdot log(T /\epsilon^2))$.
+Assume that ERM Algorithm runs for T iterations. Then, the number of $oracle$ calls is bounded by $O(T /\epsilon^2 \cdot log(T /\epsilon^2))$.
 
 ![Converge Comparison](code/imgs/Townsend_supports.png){width=13cm}
 ![Converge Comparison](code/imgs/Townsend_BR_calls.png){width=13cm}
@@ -70,4 +75,4 @@ Assume that ERM Algorithm runs for T iterations. Then, the number of oracle call
 ## Problem with the magic constant $C$
 - Tested on the the Rosenbrock function
 
-![](code/imgs/C_rosenbrock.png){width=26cm}
+![](code/imgs/C_rosenbrock.png)

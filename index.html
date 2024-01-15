@@ -340,21 +340,24 @@ Tomáš Kasl
 <h2>Domain</h2>
 <ul>
 <li>Adversarial games</li>
-<li>for two players</li>
+<li>two players</li>
 <li>zero sum</li>
 <li>action spaces are continuums</li>
+<li>we want to compute a NE</li>
 </ul>
 </section>
 <section id="nash-equilibrium" class="slide level2">
 <h2>Nash Equilibrium</h2>
 <ul>
 <li>a stable state</li>
-<li>none of the players have a reason to deviate</li>
-<li>(from the adopted strategy)</li>
+<li>none of the players have a reason to deviate
+<ul>
+<li>(from their adopted strategy)</li>
+</ul></li>
 </ul>
 </section>
-<section id="solving-ne" class="slide level2">
-<h2>Solving NE</h2>
+<section id="finding-a-ne" class="slide level2">
+<h2>Finding a NE</h2>
 <ul>
 <li>solved for games with finite action spaces</li>
 <li>create matrix <span class="math inline">\(M\)</span> as utilities of every pair of actions</li>
@@ -368,8 +371,10 @@ Tomáš Kasl
 <section id="infinite-games" class="slide level2">
 <h2>Infinite Games</h2>
 <ul>
-<li>LP no longer applicable (cannot enumerate actions)</li>
+<li>LP no longer applicable (cannot enumerate actions)
+<ul>
 <li><span class="math inline">\(\rightarrow\)</span> What else, then?</li>
+</ul></li>
 <li>settle for <span class="math inline">\(\epsilon-\)</span>NE instead</li>
 <li>iterative algorithms based on <span class="math inline">\(oracles\)</span></li>
 <li><span class="math inline">\(oracles\)</span>:
@@ -379,12 +384,19 @@ Tomáš Kasl
 </ul></li>
 </ul>
 </section>
-<section id="algorithms" class="slide level2">
-<h2>Algorithms</h2>
+<section id="task-experiments" class="slide level2">
+<h2>Task (experiments):</h2>
 <ul>
-<li><strong>Fictitious Play</strong>: the original one. Play <span class="math inline">\(bestResponse\)</span> against the average of opponnent’ history</li>
-<li><strong>Double Oracle</strong>: Proven by FEL ČVUT (2021) to converge to <span class="math inline">\(\epsilon\)</span>-NE (much faster than FP)</li>
+<li>Compare converge for algorithms:
+<ul>
+<li><strong>Double Oracle</strong>: Proven in 2021 to converge to <span class="math inline">\(\epsilon\)</span>-NE (much faster than FP)</li>
 <li><strong>Expected Regret Minimization</strong>: Generalization of online learning into two-player setting, proposed 2023</li>
+</ul></li>
+<li>Validate claims provided by the authors of ERM paper
+<ul>
+<li>Convergence</li>
+<li>Computational complexity</li>
+</ul></li>
 </ul>
 </section>
 <section id="convergence-comparison" class="slide level2">
@@ -399,9 +411,9 @@ Tomáš Kasl
 <li>Townsend: <span class="math inline">\(u(x,y) = -[\cos((x-0.1)y)]^{2}-x\sin(3x+y)\)</span> <img data-src="code/imgs/Townsend_iters.png" style="width:13cm" alt="Converge Comparison"> <img data-src="code/imgs/Townsend_brs.png" style="width:13cm" alt="Converge Comparison"></li>
 </ul>
 </section>
-<section id="testing-claims-for-erm" class="slide level2">
-<h2>Testing Claims for ERM</h2>
-<p>Assume that ERM Algorithm runs for T iterations. Then, the number of oracle calls is bounded by <span class="math inline">\(O(T /\epsilon^2 \cdot log(T /\epsilon^2))\)</span>.</p>
+<section id="testing-complexity-claims" class="slide level2">
+<h2>Testing Complexity Claims</h2>
+<p>Assume that ERM Algorithm runs for T iterations. Then, the number of <span class="math inline">\(oracle\)</span> calls is bounded by <span class="math inline">\(O(T /\epsilon^2 \cdot log(T /\epsilon^2))\)</span>.</p>
 <p><img data-src="code/imgs/Townsend_supports.png" style="width:13cm" alt="Converge Comparison"> <img data-src="code/imgs/Townsend_BR_calls.png" style="width:13cm" alt="Converge Comparison"></p>
 </section>
 <section id="problem-with-the-magic-constant-c" class="slide level2">
@@ -410,7 +422,7 @@ Tomáš Kasl
 <li>Tested on the the Rosenbrock function</li>
 </ul>
 
-<img data-src="code/imgs/C_rosenbrock.png" style="width:26cm" class="r-stretch"><div class="footer footer-default">
+<img data-src="code/imgs/C_rosenbrock.png" class="r-stretch"><div class="footer footer-default">
 
 </div>
 </section>
