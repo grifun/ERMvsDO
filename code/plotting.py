@@ -118,13 +118,14 @@ def plotCsInfinite(Cs, best_responses, errors, times, display=False):
     ax1.set_xlabel("value of C")
     ax1.set_ylabel("Error from NE")
     ax2.plot(Cs, best_responses, marker=".")
-    ax2.set_title("Iterations for chosen C")
+    ax2.set_title("Best Responses for chosen C")
     ax2.set_xlabel("value of C")
     ax2.set_ylabel("bestResponse calls")
     ax3.plot(Cs, times, marker=".")
     ax3.set_title("Time[ms] required for chosen C")
     ax3.set_xlabel("value of C")
     ax3.set_ylabel("Time")
+    plt.rcParams['figure.figsize'] = [12, 4]
     if display:
         plt.show()
     else:
