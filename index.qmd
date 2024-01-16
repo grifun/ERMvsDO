@@ -3,76 +3,105 @@ title: "Solving Continuous Games With Oracle Algorithms"
 author: "Tomáš Kasl"
 format: revealjs
 jupyter: python3
+fontsize: 2.1em
 ---
 
-## Domain
+## Focus of the Project
 
-- Adversarial games
-- two players
-- zero sum
-- action spaces are continuums
-- we want to compute a NE
+- examination of the Expected Regret Minimization algorithm (ERM, 2023)
+  - modified for computing Nash Equilibria in continuous zero-sum two-player games
+- experimental comparison with the Double Oracle algorithm (DO, 2021)
+- experimental confirmation of proposed bounds
+  - for the convergence rate
+  - for the computational complexity
 
-## Nash Equilibrium
+## A Game
+a two-player, zero-sum continuous game is
 
-- a stable state
-- none of the players have a reason to deviate
-    - (from their adopted strategy)
+$$G = (X, Y, u)$$
 
-## Finding a NE
+where:
+
+- $X$ is the action space of player 1, a hypercube* (e.g. $[0,1]^n$)
+- $Y$ is the action space of player 2, a hypercube* ($[0,1]^m$)
+- $u:$  $X \times Y\rightarrow R$ is the utility function for player 1       
+  - $u(x,y)=-u_2(x,y)$, to maximize $u_2$ is to minimize $u$
+
+${\ast}$ or generally $[a,b]\times [c,d] \times$ $...\times[v,w];a,...,w \in R$
+
+## A Strategy, a Nash Equilibrium
+
+- a (mixed) strategy is a prob. distribution $p$ ($q$) over $X$ ($Y$)
+- the final action $a$ ($b$) is i.i.d drawn from $X$ ($Y$)
+- the expected utility (for finite action spaces): 
+$$U(p,q) = \sum_{x_i \in \boldsymbol{X}} \sum_{y_j \in \boldsymbol{Y}} u(x_i,y_j) \cdot p_i \cdot q_j$$
+
+- a Nash Equilibrium (~ a solution of a game) is a pair of strategies $(p^{\ast},q^{\ast})$ of a stable state, that is:
+$$U (p, q^{\ast}) \le U (p^{\ast}, q^{\ast}) \le U (p^{\ast}, q) ; \forall p,q$$
+
+## Finding the Nash Equilibria
 
 - solved for games with finite action spaces
-- create matrix $M$ as utilities of every pair of actions
-- Linear program:
-
-$maximize$  $x_0$
-
-s.t. $M^T\pmb{x} - \pmb{1}x_0 \geq \pmb{0}$
-
-$\sum_{j \in A} x_j = 1$
-
-$\pmb{x} \geq 0$
-
-## Infinite Games
-
-- LP no longer applicable (cannot enumerate actions)
-    - $\rightarrow$ What else, then?
-- settle for $\epsilon-$NE instead
-- iterative algorithms based on $oracles$
-- $oracles$: 
-    - $bestResponse$ $oracle$: picks from the whole continuum
-    - $value$ $oracle$: the LP from previous slide, solves a subgame with finite action spaces
-
-## Task (experiments):
-
-- Compare converge for algorithms:
-    - **Double Oracle**: Proven in 2021 to converge to $\epsilon$-NE (much faster than FP)
-    - **Expected Regret Minimization**: Generalization of online learning into two-player setting, proposed 2023
-- Validate claims provided by the authors of ERM paper
-    - Convergence
-    - Computational complexity
+- create matrix $M$ of the utilities of every pair of actions, then solve a LP (based on $M$ and the $minmax$ theorem)
+- for infinite games, the LP is no longer applicable (cannot enumerate actions)
+    - $\rightarrow$ Settle for $\epsilon-$NE instead
+    - iterative algorithms based on $oracles$
 
 
-## Convergence Comparison
-- Rosenbrock: $u(x,y) = (1-x)^{2}+100(y-x^{2})^{2}$
-![Converge Comparison](code/imgs/Rosenbrock_iters.png){width=13cm}
-![Converge Comparison](code/imgs/Rosenbrock_brs.png){width=13cm}
+## Expected Regret Minimization
 
-## Convergence Comparison
-- Townsend: $u(x,y) = -[\cos((x-0.1)y)]^{2}-x\sin(3x+y)$
-![Converge Comparison](code/imgs/Townsend_iters.png){width=13cm}
-![Converge Comparison](code/imgs/Townsend_brs.png){width=13cm}
+definition of the algorithm
 
+![](code/imgs/algs.png){width=25cm}
+
+
+## Convergence Comparison, 1
+the Rosenbrock function: 
+$$u(x,y) = (1-x)^{2}+100(y-x^{2})^{2}$$
+![Converge Comparison](code/imgs/Rosenbrock_iters.png){width=13.5cm}
+![Converge Comparison](code/imgs/Rosenbrock_brs.png){width=13.5cm}
+
+## Convergence Comparison, 2
+the Townsend function: 
+$$u(x,y) = -[\cos((x-0.1)\cdot y)]^{2}-x\sin(3x+y)$$
+![Converge Comparison](code/imgs/Townsend_iters.png){width=13.5cm}
+![Converge Comparison](code/imgs/Townsend_brs.png){width=13.5cm}
 
 
 ## Testing Complexity Claims
 
-Assume that ERM Algorithm runs for T iterations. Then, the number of $oracle$ calls is bounded by $O(T /\epsilon^2 \cdot log(T /\epsilon^2))$.
+"Assume that the ERM algorithm runs for T iterations. Then, the number of $oracle$ calls is bounded by $O((T /\epsilon^2) \log(T /\epsilon^2))$."
 
 ![Converge Comparison](code/imgs/Townsend_supports.png){width=13cm}
 ![Converge Comparison](code/imgs/Townsend_BR_calls.png){width=13cm}
 
-## Problem with the magic constant $C$
-- Tested on the the Rosenbrock function
+## More Claims, Value of $C$, part 1
+"Let $G = (A = {a_1, . . . , a_n}, Y, u)$ be a zero-sum game where $|A| = n$ and $Y$ is possibly infinite, and let $\epsilon > 0$. Then, the subroutine, executed with the parameter $\epsilon$, finds an $O(\epsilon)$-Nash equilibrium, after $V = O(\log \; n/\epsilon^2)$ iterations." - Tested on Rock-Paper-Scissors (finite)
+
+![](code/imgs/C_influence.png){width=30cm}
+
+## More Claims, Value of $C$, part 2
+
+the Rosenbrock function:
 
 ![](code/imgs/C_rosenbrock.png)
+
+## Conclusions
+
+- the ERM algorithm solves continuous games
+- a possible tradeoff (compared to the DO)
+  - ERM requires less iterations (LP calls)
+  - DO requires less $bestResponse$ calls
+- how to find adequate value of $C$?
+
+## Thank you
+
+Tomáš Kasl
+
+( kasltoma@fel.cvut.cz )
+
+Software or Research Project
+
+Open Informatics
+
+FEE CTU in Prague

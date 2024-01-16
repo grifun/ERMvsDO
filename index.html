@@ -336,93 +336,105 @@ Tomáš Kasl
 </div>
 
 </section>
-<section id="domain" class="slide level2">
-<h2>Domain</h2>
+<section id="focus-of-the-project" class="slide level2">
+<h2>Focus of the Project</h2>
 <ul>
-<li>Adversarial games</li>
-<li>two players</li>
-<li>zero sum</li>
-<li>action spaces are continuums</li>
-<li>we want to compute a NE</li>
-</ul>
-</section>
-<section id="nash-equilibrium" class="slide level2">
-<h2>Nash Equilibrium</h2>
+<li>examination of the Expected Regret Minimization algorithm (ERM, 2023)
 <ul>
-<li>a stable state</li>
-<li>none of the players have a reason to deviate
+<li>modified for computing Nash Equilibria in continuous zero-sum two-player games</li>
+</ul></li>
+<li>experimental comparison with the Double Oracle algorithm (DO, 2021)</li>
+<li>experimental confirmation of proposed bounds
 <ul>
-<li>(from their adopted strategy)</li>
+<li>for the convergence rate</li>
+<li>for the computational complexity</li>
 </ul></li>
 </ul>
 </section>
-<section id="finding-a-ne" class="slide level2">
-<h2>Finding a NE</h2>
+<section id="a-game" class="slide level2">
+<h2>A Game</h2>
+<p>a two-player, zero-sum continuous game is</p>
+<p><span class="math display">\[G = (X, Y, u)\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(X\)</span> is the action space of player 1, a hypercube* (e.g.&nbsp;<span class="math inline">\([0,1]^n\)</span>)</li>
+<li><span class="math inline">\(Y\)</span> is the action space of player 2, a hypercube* (<span class="math inline">\([0,1]^m\)</span>)</li>
+<li><span class="math inline">\(u:\)</span> <span class="math inline">\(X \times Y\rightarrow R\)</span> is the utility function for player 1
+<ul>
+<li><span class="math inline">\(u(x,y)=-u_2(x,y)\)</span>, to maximize <span class="math inline">\(u_2\)</span> is to minimize <span class="math inline">\(u\)</span></li>
+</ul></li>
+</ul>
+<p><span class="math inline">\({\ast}\)</span> or generally <span class="math inline">\([a,b]\times [c,d] \times\)</span> <span class="math inline">\(...\times[v,w];a,...,w \in R\)</span></p>
+</section>
+<section id="a-strategy-a-nash-equilibrium" class="slide level2">
+<h2>A Strategy, a Nash Equilibrium</h2>
+<ul>
+<li><p>a (mixed) strategy is a prob. distribution <span class="math inline">\(p\)</span> (<span class="math inline">\(q\)</span>) over <span class="math inline">\(X\)</span> (<span class="math inline">\(Y\)</span>)</p></li>
+<li><p>the final action <span class="math inline">\(a\)</span> (<span class="math inline">\(b\)</span>) is i.i.d drawn from <span class="math inline">\(X\)</span> (<span class="math inline">\(Y\)</span>)</p></li>
+<li><p>the expected utility (for finite action spaces): <span class="math display">\[U(p,q) = \sum_{x_i \in \boldsymbol{X}} \sum_{y_j \in \boldsymbol{Y}} u(x_i,y_j) \cdot p_i \cdot q_j\]</span></p></li>
+<li><p>a Nash Equilibrium (~ a solution of a game) is a pair of strategies <span class="math inline">\((p^{\ast},q^{\ast})\)</span> of a stable state, that is: <span class="math display">\[U (p, q^{\ast}) \le U (p^{\ast}, q^{\ast}) \le U (p^{\ast}, q) ; \forall p,q\]</span></p></li>
+</ul>
+</section>
+<section id="finding-the-nash-equilibria" class="slide level2">
+<h2>Finding the Nash Equilibria</h2>
 <ul>
 <li>solved for games with finite action spaces</li>
-<li>create matrix <span class="math inline">\(M\)</span> as utilities of every pair of actions</li>
-<li>Linear program:</li>
-</ul>
-<p><span class="math inline">\(maximize\)</span> <span class="math inline">\(x_0\)</span></p>
-<p>s.t. <span class="math inline">\(M^T\pmb{x} - \pmb{1}x_0 \geq \pmb{0}\)</span></p>
-<p><span class="math inline">\(\sum_{j \in A} x_j = 1\)</span></p>
-<p><span class="math inline">\(\pmb{x} \geq 0\)</span></p>
-</section>
-<section id="infinite-games" class="slide level2">
-<h2>Infinite Games</h2>
+<li>create matrix <span class="math inline">\(M\)</span> of the utilities of every pair of actions, then solve a LP (based on <span class="math inline">\(M\)</span> and the <span class="math inline">\(minmax\)</span> theorem)</li>
+<li>for infinite games, the LP is no longer applicable (cannot enumerate actions)
 <ul>
-<li>LP no longer applicable (cannot enumerate actions)
-<ul>
-<li><span class="math inline">\(\rightarrow\)</span> What else, then?</li>
-</ul></li>
-<li>settle for <span class="math inline">\(\epsilon-\)</span>NE instead</li>
+<li><span class="math inline">\(\rightarrow\)</span> Settle for <span class="math inline">\(\epsilon-\)</span>NE instead</li>
 <li>iterative algorithms based on <span class="math inline">\(oracles\)</span></li>
-<li><span class="math inline">\(oracles\)</span>:
-<ul>
-<li><span class="math inline">\(bestResponse\)</span> <span class="math inline">\(oracle\)</span>: picks from the whole continuum</li>
-<li><span class="math inline">\(value\)</span> <span class="math inline">\(oracle\)</span>: the LP from previous slide, solves a subgame with finite action spaces</li>
 </ul></li>
 </ul>
 </section>
-<section id="task-experiments" class="slide level2">
-<h2>Task (experiments):</h2>
-<ul>
-<li>Compare converge for algorithms:
-<ul>
-<li><strong>Double Oracle</strong>: Proven in 2021 to converge to <span class="math inline">\(\epsilon\)</span>-NE (much faster than FP)</li>
-<li><strong>Expected Regret Minimization</strong>: Generalization of online learning into two-player setting, proposed 2023</li>
-</ul></li>
-<li>Validate claims provided by the authors of ERM paper
-<ul>
-<li>Convergence</li>
-<li>Computational complexity</li>
-</ul></li>
-</ul>
-</section>
-<section id="convergence-comparison" class="slide level2">
-<h2>Convergence Comparison</h2>
-<ul>
-<li>Rosenbrock: <span class="math inline">\(u(x,y) = (1-x)^{2}+100(y-x^{2})^{2}\)</span> <img data-src="code/imgs/Rosenbrock_iters.png" style="width:13cm" alt="Converge Comparison"> <img data-src="code/imgs/Rosenbrock_brs.png" style="width:13cm" alt="Converge Comparison"></li>
-</ul>
-</section>
+<section id="expected-regret-minimization" class="slide level2">
+<h2>Expected Regret Minimization</h2>
+<p>definition of the algorithm</p>
+
+<img data-src="code/imgs/algs.png" style="width:25cm" class="r-stretch"></section>
 <section id="convergence-comparison-1" class="slide level2">
-<h2>Convergence Comparison</h2>
-<ul>
-<li>Townsend: <span class="math inline">\(u(x,y) = -[\cos((x-0.1)y)]^{2}-x\sin(3x+y)\)</span> <img data-src="code/imgs/Townsend_iters.png" style="width:13cm" alt="Converge Comparison"> <img data-src="code/imgs/Townsend_brs.png" style="width:13cm" alt="Converge Comparison"></li>
-</ul>
+<h2>Convergence Comparison, 1</h2>
+<p>the Rosenbrock function: <span class="math display">\[u(x,y) = (1-x)^{2}+100(y-x^{2})^{2}\]</span> <img data-src="code/imgs/Rosenbrock_iters.png" style="width:13.5cm" alt="Converge Comparison"> <img data-src="code/imgs/Rosenbrock_brs.png" style="width:13.5cm" alt="Converge Comparison"></p>
+</section>
+<section id="convergence-comparison-2" class="slide level2">
+<h2>Convergence Comparison, 2</h2>
+<p>the Townsend function: <span class="math display">\[u(x,y) = -[\cos((x-0.1)\cdot y)]^{2}-x\sin(3x+y)\]</span> <img data-src="code/imgs/Townsend_iters.png" style="width:13.5cm" alt="Converge Comparison"> <img data-src="code/imgs/Townsend_brs.png" style="width:13.5cm" alt="Converge Comparison"></p>
 </section>
 <section id="testing-complexity-claims" class="slide level2">
 <h2>Testing Complexity Claims</h2>
-<p>Assume that ERM Algorithm runs for T iterations. Then, the number of <span class="math inline">\(oracle\)</span> calls is bounded by <span class="math inline">\(O(T /\epsilon^2 \cdot log(T /\epsilon^2))\)</span>.</p>
+<p>“Assume that the ERM algorithm runs for T iterations. Then, the number of <span class="math inline">\(oracle\)</span> calls is bounded by <span class="math inline">\(O((T /\epsilon^2) \log(T /\epsilon^2))\)</span>.”</p>
 <p><img data-src="code/imgs/Townsend_supports.png" style="width:13cm" alt="Converge Comparison"> <img data-src="code/imgs/Townsend_BR_calls.png" style="width:13cm" alt="Converge Comparison"></p>
 </section>
-<section id="problem-with-the-magic-constant-c" class="slide level2">
-<h2>Problem with the magic constant <span class="math inline">\(C\)</span></h2>
-<ul>
-<li>Tested on the the Rosenbrock function</li>
-</ul>
+<section id="more-claims-value-of-c-part-1" class="slide level2">
+<h2>More Claims, Value of <span class="math inline">\(C\)</span>, part 1</h2>
+<p>“Let <span class="math inline">\(G = (A = {a_1, . . . , a_n}, Y, u)\)</span> be a zero-sum game where <span class="math inline">\(|A| = n\)</span> and <span class="math inline">\(Y\)</span> is possibly infinite, and let <span class="math inline">\(\epsilon &gt; 0\)</span>. Then, the subroutine, executed with the parameter <span class="math inline">\(\epsilon\)</span>, finds an <span class="math inline">\(O(\epsilon)\)</span>-Nash equilibrium, after <span class="math inline">\(V = O(\log \; n/\epsilon^2)\)</span> iterations.” - Tested on Rock-Paper-Scissors (finite)</p>
 
-<img data-src="code/imgs/C_rosenbrock.png" class="r-stretch"><div class="footer footer-default">
+<img data-src="code/imgs/C_influence.png" style="width:30cm" class="r-stretch"></section>
+<section id="more-claims-value-of-c-part-2" class="slide level2">
+<h2>More Claims, Value of <span class="math inline">\(C\)</span>, part 2</h2>
+<p>the Rosenbrock function:</p>
+
+<img data-src="code/imgs/C_rosenbrock.png" class="r-stretch"></section>
+<section id="conclusions" class="slide level2">
+<h2>Conclusions</h2>
+<ul>
+<li>the ERM algorithm solves continuous games</li>
+<li>a possible tradeoff (compared to the DO)
+<ul>
+<li>ERM requires less iterations (LP calls)</li>
+<li>DO requires less <span class="math inline">\(bestResponse\)</span> calls</li>
+</ul></li>
+<li>how to find adequate value of <span class="math inline">\(C\)</span>?</li>
+</ul>
+</section>
+<section id="thank-you" class="slide level2">
+<h2>Thank you</h2>
+<p>Tomáš Kasl</p>
+<p>( kasltoma@fel.cvut.cz )</p>
+<p>Software or Research Project</p>
+<p>Open Informatics</p>
+<p>FEE CTU in Prague</p>
+<div class="footer footer-default">
 
 </div>
 </section>
