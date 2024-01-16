@@ -32,7 +32,7 @@ ${\ast}$ or generally $[a,b]\times [c,d] \times$ $...\times[v,w];a,...,w \in R$
 ## A Strategy, a Nash Equilibrium
 
 - a (mixed) strategy is a prob. distribution $p$ ($q$) over $X$ ($Y$)
-- the final action $a$ ($b$) is i.i.d drawn from $X$ ($Y$)
+- the final action $a \in X$ ($b \in Y$) is i.i.d drawn from $p$ ($q$)
 - the expected utility (for finite action spaces): 
 $$U(p,q) = \sum_{x_i \in \boldsymbol{X}} \sum_{y_j \in \boldsymbol{Y}} u(x_i,y_j) \cdot p_i \cdot q_j$$
 
@@ -76,23 +76,24 @@ $$u(x,y) = -[\cos((x-0.1)\cdot y)]^{2}-x\sin(3x+y)$$
 ![Converge Comparison](code/imgs/Townsend_BR_calls.png){width=13cm}
 
 ## More Claims, Value of $C$, part 1
-"Let $G = (A = {a_1, . . . , a_n}, Y, u)$ be a zero-sum game where $|A| = n$ and $Y$ is possibly infinite, and let $\epsilon > 0$. Then, the subroutine, executed with the parameter $\epsilon$, finds an $O(\epsilon)$-Nash equilibrium, after $V = O(\log \; n/\epsilon^2)$ iterations." - Tested on Rock-Paper-Scissors (finite)
+"Let $G = (A = {a_1, . . . , a_n}, Y, u)$ be a zero-sum game where $|A| = n$ and $Y$ is possibly infinite, and let $\epsilon > 0$. Then, the subroutine, executed with the parameter $\epsilon$, finds an $O(\epsilon)$-Nash equilibrium, after $V = O(\log \; n/\epsilon^2)$ iterations." - Tested on Rock-Paper-Scissors
 
 ![](code/imgs/C_influence.png){width=30cm}
 
 ## More Claims, Value of $C$, part 2
 
-the Rosenbrock function:
+the Rosenbrock function (with infinite action spaces):
 
 ![](code/imgs/C_rosenbrock.png)
 
 ## Conclusions
 
 - the ERM algorithm solves continuous games
-- a possible tradeoff (compared to the DO)
+- a possible tradeoff
   - ERM requires less iterations (LP calls)
   - DO requires less $bestResponse$ calls
 - how to find adequate value of $C$?
+  - to be examined
 
 ## Thank you
 

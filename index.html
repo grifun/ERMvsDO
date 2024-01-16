@@ -370,7 +370,7 @@ Tomáš Kasl
 <h2>A Strategy, a Nash Equilibrium</h2>
 <ul>
 <li><p>a (mixed) strategy is a prob. distribution <span class="math inline">\(p\)</span> (<span class="math inline">\(q\)</span>) over <span class="math inline">\(X\)</span> (<span class="math inline">\(Y\)</span>)</p></li>
-<li><p>the final action <span class="math inline">\(a\)</span> (<span class="math inline">\(b\)</span>) is i.i.d drawn from <span class="math inline">\(X\)</span> (<span class="math inline">\(Y\)</span>)</p></li>
+<li><p>the final action <span class="math inline">\(a \in X\)</span> (<span class="math inline">\(b \in Y\)</span>) is i.i.d drawn from <span class="math inline">\(p\)</span> (<span class="math inline">\(q\)</span>)</p></li>
 <li><p>the expected utility (for finite action spaces): <span class="math display">\[U(p,q) = \sum_{x_i \in \boldsymbol{X}} \sum_{y_j \in \boldsymbol{Y}} u(x_i,y_j) \cdot p_i \cdot q_j\]</span></p></li>
 <li><p>a Nash Equilibrium (~ a solution of a game) is a pair of strategies <span class="math inline">\((p^{\ast},q^{\ast})\)</span> of a stable state, that is: <span class="math display">\[U (p, q^{\ast}) \le U (p^{\ast}, q^{\ast}) \le U (p^{\ast}, q) ; \forall p,q\]</span></p></li>
 </ul>
@@ -407,24 +407,27 @@ Tomáš Kasl
 </section>
 <section id="more-claims-value-of-c-part-1" class="slide level2">
 <h2>More Claims, Value of <span class="math inline">\(C\)</span>, part 1</h2>
-<p>“Let <span class="math inline">\(G = (A = {a_1, . . . , a_n}, Y, u)\)</span> be a zero-sum game where <span class="math inline">\(|A| = n\)</span> and <span class="math inline">\(Y\)</span> is possibly infinite, and let <span class="math inline">\(\epsilon &gt; 0\)</span>. Then, the subroutine, executed with the parameter <span class="math inline">\(\epsilon\)</span>, finds an <span class="math inline">\(O(\epsilon)\)</span>-Nash equilibrium, after <span class="math inline">\(V = O(\log \; n/\epsilon^2)\)</span> iterations.” - Tested on Rock-Paper-Scissors (finite)</p>
+<p>“Let <span class="math inline">\(G = (A = {a_1, . . . , a_n}, Y, u)\)</span> be a zero-sum game where <span class="math inline">\(|A| = n\)</span> and <span class="math inline">\(Y\)</span> is possibly infinite, and let <span class="math inline">\(\epsilon &gt; 0\)</span>. Then, the subroutine, executed with the parameter <span class="math inline">\(\epsilon\)</span>, finds an <span class="math inline">\(O(\epsilon)\)</span>-Nash equilibrium, after <span class="math inline">\(V = O(\log \; n/\epsilon^2)\)</span> iterations.” - Tested on Rock-Paper-Scissors</p>
 
 <img data-src="code/imgs/C_influence.png" style="width:30cm" class="r-stretch"></section>
 <section id="more-claims-value-of-c-part-2" class="slide level2">
 <h2>More Claims, Value of <span class="math inline">\(C\)</span>, part 2</h2>
-<p>the Rosenbrock function:</p>
+<p>the Rosenbrock function (with infinite action spaces):</p>
 
 <img data-src="code/imgs/C_rosenbrock.png" class="r-stretch"></section>
 <section id="conclusions" class="slide level2">
 <h2>Conclusions</h2>
 <ul>
 <li>the ERM algorithm solves continuous games</li>
-<li>a possible tradeoff (compared to the DO)
+<li>a possible tradeoff
 <ul>
 <li>ERM requires less iterations (LP calls)</li>
 <li>DO requires less <span class="math inline">\(bestResponse\)</span> calls</li>
 </ul></li>
-<li>how to find adequate value of <span class="math inline">\(C\)</span>?</li>
+<li>how to find adequate value of <span class="math inline">\(C\)</span>?
+<ul>
+<li>to be examined</li>
+</ul></li>
 </ul>
 </section>
 <section id="thank-you" class="slide level2">
